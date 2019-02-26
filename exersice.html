@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<select id="option">
+<select id="option" onChange="option()">
     <option value="name">Name</option>
     <option value="rotation">Rotation Period</option>
     <option value="orbital">Orbital Period</option>
@@ -22,7 +22,6 @@
     <option value="url">Url</option>
 </select>
 <input id="search"  type="text"/>
-
 <select id="sort">
     <option value="asc">ASC</option>
     <option value="desc">DESC</option>
@@ -51,6 +50,26 @@
 </table>
 
 <script>
+
+    function option(){
+        let val = document.getElementById("option").value;
+        console.log(val);
+        console.log(val==='name');
+        if(val==='name'){
+           document.getElementById("sort").setAttribute("disabled", false);
+           console.log('a');
+        }
+         else if(val ==='rotation')
+           document.getElementById("sort").setAttribute("disabled", false);
+         else if( val ==='orbital')
+           document.getElementById("sort").setAttribute("disabled", false);
+        else if( val ==='gravity')
+             document.getElementById("sort").setAttribute("disabled", false);
+        else
+        document.getElementById("sort").setAttribute("disabled", true);
+    
+    }
+
     var arrayOfObject =[
         {
             "name": "Alderaan",
@@ -272,10 +291,8 @@
             "url": "https://swapi.co/api/planets/11/"
         }
     ];
-
     let table = document.getElementById("body");
     mapping(arrayOfObject);
-
     function search(){
         let keyword =  document.getElementById('search').value.toLowerCase();
         let option =  document.getElementById('option').value.toLowerCase();
@@ -288,18 +305,24 @@
                 break;
             case 'rotation':
                 newarray = arrayOfObject.filter(object => object.rotation_period.toLowerCase().indexOf(keyword) > -1);
+                newarray = sortRotation(newarray,sort);
+			
                 break;
             case 'orbital':
                 newarray = arrayOfObject.filter(object => object.orbital_period.toLowerCase().indexOf(keyword) > -1);
+                newarray = sortOrbital(newarray,sort);
                 break;
             case 'diameter':
                 newarray = arrayOfObject.filter(object => object.diameter.toLowerCase().indexOf(keyword) > -1);
+                newarray = sortDiameter(newarray,sort);
                 break;
             case 'climate':
                 newarray = arrayOfObject.filter(object => object.climate.toLowerCase().indexOf(keyword) > -1);
+                newarray = sortClimate(newarray,sort);
                 break;
             case 'gravity':
                 newarray = arrayOfObject.filter(object => object.gravity.toLowerCase().indexOf(keyword) > -1);
+        
                 break;
             case 'terrain':
                 newarray = arrayOfObject.filter(object => object.terrain.toLowerCase().indexOf(keyword) > -1);
@@ -319,21 +342,123 @@
             case 'url':
                 newarray = arrayOfObject.filter(object => object.url.toLowerCase().indexOf(keyword) > -1);
                 break;
-
-
         }
-
         mapping(newarray);
     }
-
+	
+	
     function sortRotation(arr,sort){
         if(sort === 'asc'){
-            arr.sort(function(a,b){
-                return a.rotation_period-b.rotation_period
-            })
+            arr.sort(function(a, b){
+                a=a.rotation_period;
+                 b =b.rotation_period;
+
+                if (a > b) //sort string ascending
+                    return -1;
+                if (a < b)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
         }
+        else{
+            arr.sort(function(a, b){
+                a=a.rotation_period;
+                 b =b.rotation_period;
+
+                if (a < b) //sort string ascending
+                    return -1;
+                if (a > b)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+        }
+        return arr;    
     }
 
+    function sortOrbital(arr,sort){
+        if(sort === 'asc'){
+            arr.sort(function(a, b){
+                a=a.orbital_period;
+                 b =b.orbital_period;
+
+                if (a > b) //sort string ascending
+                    return -1;
+                if (a < b)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
+        }
+        else{
+            arr.sort(function(a, b){
+                a=a.orbital_period;
+                 b =b.orbital_period;
+
+                if (a < b) //sort string ascending
+                    return -1;
+                if (a > b)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+        }
+        return arr;    
+    }
+
+    function sortDiameter(arr,sort){
+        if(sort === 'asc'){
+            arr.sort(function(a, b){
+                a=a.diameter;
+                 b =b.diameter;
+
+                if (a > b) //sort string ascending
+                    return -1;
+                if (a < b)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
+        }
+        else{
+            arr.sort(function(a, b){
+                a=a.diameter;
+                 b =b.diameter;
+
+                if (a < b) //sort string ascending
+                    return -1;
+                if (a > b)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+        }
+        return arr;    
+    }
+
+    function sortClimate(arr,sort){
+        if(sort === 'asc'){
+            arr.sort(function(a, b){
+                a=a.climate;
+                 b =b.climate;
+
+                if (a > b) //sort string ascending
+                    return -1;
+                if (a < b)
+                    return 1;
+                return 0; //default return value (no sorting)
+            });
+        }
+        else{
+            arr.sort(function(a, b){
+                a=a.climate;
+                 b =b.climate;
+
+                if (a < b) //sort string ascending
+                    return -1;
+                if (a > b)
+                    return 1;
+                return 0 //default return value (no sorting)
+            });
+        }
+        return arr;    
+    }
+	
     function sortNameString(arr,sort){
         if(sort === 'asc'){
             arr.sort(function(a, b){
@@ -342,7 +467,7 @@
                     return -1;
                 if (nameA < nameB)
                     return 1;
-                return 0 //default return value (no sorting)
+                return 0; //default return value (no sorting)
             });
         }
         else{
@@ -355,18 +480,13 @@
                 return 0 //default return value (no sorting)
             });
         }
-
         return arr;
     }
-
     function mapping (arr){
         document.getElementById("body").innerHTML = "";
-
-
         arr.map(function(row,key){
             var x = document.getElementById("body").rows.length;
             let tablerow = table.insertRow(x);
-
             let cell1 = tablerow.insertCell(0);
             let cell2 = tablerow.insertCell(1);
             let cell3 = tablerow.insertCell(2);
@@ -379,8 +499,6 @@
             let cell10 = tablerow.insertCell(9);
             let cell11 = tablerow.insertCell(10);
             let cell12 = tablerow.insertCell(11);
-
-
             cell1.innerHTML = row.name;
             cell2.innerHTML = row.rotation_period;
             cell3.innerHTML = row.orbital_period;
